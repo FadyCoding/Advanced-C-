@@ -1,0 +1,28 @@
+{
+    "files.associations": {
+        "referenced": "cpp",
+        "vec3": "cpp",
+        "math": "cpp",
+        "functional": "cpp",
+        "drawable": "cpp",
+        "node": "cpp",
+        "shadowvolumeoccluder": "cpp",
+        "cameramanipulator": "cpp",
+        "textbase": "cpp",
+        "cullvisitor": "cpp",
+        "incrementalcompileoperation": "cpp",
+        "sceneview": "cpp",
+        "shape": "cpp",
+        "vec3d": "cpp",
+        "vec3f": "cpp",
+        "string_view": "cpp",
+        "__locale": "cpp",
+        "__string": "cpp",
+        "string": "cpp",
+        "quat": "cpp",
+        "vec2d": "cpp",
+        "vec2f": "cpp",
+        "vec4d": "cpp",
+        "vec4f": "cpp"
+    }
+}
