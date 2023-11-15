@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "ref_ptr": "cpp",
+        "callback": "cpp",
+        "nodevisitor": "cpp",
+        "matrixd": "cpp",
+        "math": "cpp"
+    }
+}
