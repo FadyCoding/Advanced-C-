@@ -25,6 +25,7 @@
 #include <boost/array.hpp>
 #include <vector>
 #include <array>
+#include <cmath>
 
 class IGeomCollisionContainer;
 class CameraShake;

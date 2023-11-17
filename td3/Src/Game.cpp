@@ -27,6 +27,10 @@
 #include <osg/MatrixTransform>
 #include <osg/LightSource>
 #include <osg/LightModel>
+#include <osg/Material>
+#include <osg/Timer>
+#include <osgViewer/Viewer>
+#include <osg/Node>
 
 #include <PVLE/Util/Math.h>
 #include <PVLE/Physics/VisitorSmart.h>
@@ -135,13 +139,23 @@ void Game::applyCameraShake(CameraShake * pCameraShake) {
 	}
 }
 
+
 float Game::computeDayLightIntensity() const {
-	// TODO TD3 Code this method!
+    // Use osg::Timer to get the elapsed time
+    static osg::ElapsedTime time;
+    double elapsedTime = time.elapsedTime ();
 
+    // TODO: Rest of the code for computeDayLightIntensity
 
-	return 0;
+    // Example: Use a sine function to simulate a day-night cycle
+    float dayNightCycleDuration = 60.0f; // Adjust this value based on the desired cycle duration
+    float timeOfDay = fmod(elapsedTime, dayNightCycleDuration) / dayNightCycleDuration;
+
+    // Adjust the intensity based on the time of day (sine function for a smooth transition)
+    float lightIntensity = 0.5f + 0.5f * std::sin(timeOfDay * 3.14159);
+
+    return lightIntensity;
 }
-
 
 void Game::updateLights() {
 	// TODO TD3
@@ -149,25 +163,38 @@ void Game::updateLights() {
 	if (gameLightSources[LIGHT_DAY]) {
 		// Update light
 		osg::Light * currentLight = gameLightSources[LIGHT_DAY]->getLight();
-		
-		// currentLight->setLightNum(1);
+		float lightIntensity = computeDayLightIntensity();
 
 		double rotationAngle = osg::DegreesToRadians(0.2);
-
         osg::Matrix rotationMatrix;
         rotationMatrix.makeRotate(rotationAngle, osg::Vec3(0, 1, 0));
 
+		// Get light position
 		auto currentLightPosition = currentLight->getPosition();
 
+		// Transform light position
 		auto newLightPosition = currentLightPosition * rotationMatrix;
 
 		currentLight->setPosition(newLightPosition);
-
-
-		currentLight->setAmbient(osg::Vec4(1, 1, 1, 0));
-		currentLight->setDiffuse(osg::Vec4(1, 1, 1, 1));
-		currentLight->setSpecular(osg::Vec4(1, 1, 1, 1));
+		currentLight->setAmbient(osg::Vec4(lightIntensity, lightIntensity, lightIntensity, 0));
+		currentLight->setDiffuse(osg::Vec4(lightIntensity, lightIntensity, lightIntensity, 1));
+		currentLight->setSpecular(osg::Vec4(lightIntensity, lightIntensity, lightIntensity, 1));
 
 	}
+	// Night
+	else
+	{
+		osg::Light * currentLight = gameLightSources[LIGHT_DAY]->getLight();
+        osg::Vec4 nightGlobalAmbientColor(0.0, 0.0, 0.2, 1.0);
+
+        // Create a MaterialStateAttribute to set ambient color during the night
+        osg::ref_ptr<osg::Material> globalMaterial = new osg::Material;
+        globalMaterial->setAmbient(osg::Material::FRONT_AND_BACK, nightGlobalAmbientColor);
+
+        // Apply the MaterialStateAttribute to the entire scene
+		currentLight->getOrCreateObserverSet()->setAttributeAndModes(globalMaterial.get(), osg::StateAttribute::ON);
+    }
 }
+
+
 

@@ -4,6 +4,11 @@
         "callback": "cpp",
         "nodevisitor": "cpp",
         "matrixd": "cpp",
-        "math": "cpp"
+        "math": "cpp",
+        "lightsource": "cpp",
+        "matrix": "cpp",
+        "timer": "cpp",
+        "node": "cpp",
+        "material": "cpp"
     }
 }
